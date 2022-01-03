@@ -82,10 +82,35 @@ scene.add(Triangle(point[0], point[4], point[7], color = colormap['yellow']))
 scene.add(Triangle(point[6], point[1], point[2], color = colormap['violet']))
 # scene.add(Triangle(point[6], point[1], point[5], color = colormap['yellow']))
 
-
+is_dragging = False
 camera = Camera()
 gui = ti.GUI("Arcball", (screen_width, screen_height))
 while gui.running:
+    for e in gui.get_events(ti.GUI.PRESS, ti.GUI.MOTION, ti.GUI.RELEASE):
+        if e.type == ti.GUI.PRESS:
+            if e.key == ti.GUI.LMB:
+                is_dragging = True
+                start_mouse_x, start_mouse_y = gui.get_cursor_pos()
+        elif e.type == ti.GUI.RELEASE:
+            if e.key == ti.GUI.LMB:
+                is_dragging = False
+                stop_mouse_x, stop_mouse_y = gui.get_cursor_pos()
+    now_mouse_x, now_mouse_y = gui.get_cursor_pos()
+    if (is_dragging):
+        dragging_mouse_x, dragging_mouse_y = (now_mouse_x - start_mouse_x, now_mouse_y - start_mouse_y)
     update_camera()
     gui.set_image(screen)
+    gui.text(
+        content=f'Mouse_x, mouse_y = {now_mouse_x:.2f}, {now_mouse_y:.2f}', pos=(0.6, 0.95), color=0x000000
+    )
+    gui.text(
+        content=f'start_x, start_y = {start_mouse_x:.2f}, {start_mouse_y:.2f}', pos=(0.6, 0.9), color=0x000000
+    )
+    gui.text(
+        content=f'dragging_x, dragging_y = {dragging_mouse_x:.2f}, {dragging_mouse_y:.2f}', pos=(0.6, 0.85), color=0x000000
+    )
+    gui.text(
+        content=f'stop_x, stop_y = {stop_mouse_x:.2f}, {stop_mouse_y:.2f}', pos=(0.6, 0.8), color=0x000000
+    )
+
     gui.show()

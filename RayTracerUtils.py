@@ -64,9 +64,6 @@ class Triangle:
                     is_hit = False
         return is_hit, root, hit_point, hit_point_normal, front_face, self.material, self.color
 
-
-
-
 @ti.data_oriented
 class Hittable_list:
     def __init__(self):
